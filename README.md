@@ -110,7 +110,7 @@ Maintains:
                         │  & tracebacks)  │
                         └──────────────────┘
 
----
+```
 
 # 🚀 Getting Started
 
@@ -129,8 +129,6 @@ Maintains:
 ```bash
 git clone <YOUR_GITHUB_REPOSITORY_URL>
 cd self-correcting-agent
-```
-
 ---
 
 ## 2️⃣ Create a Virtual Environment
