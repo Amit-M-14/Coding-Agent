@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 from openai import OpenAI
 from dotenv import load_dotenv
 from tools import read_file, write_file, list_files, run_terminal_command
@@ -106,9 +107,8 @@ def askAgent(prompt, max_steps=10):
         step += 1
         print(f"\n--- STEP {step} ---")
 
-        # 1. Get the Brain's decision
         response = client.chat.completions.create(
-            model="openai/gpt-oss-120b:free",
+            model="openai/gpt-4o-mini",
             messages=messages,
             tools=tools,
             tool_choice="auto"
@@ -116,10 +116,8 @@ def askAgent(prompt, max_steps=10):
 
         response_message = response.choices[0].message
         
-        # Append the assistant's thought/call to history
         messages.append(response_message)
 
-        # 2. Check if the AI wants to talk or act
         if response_message.tool_calls:
             for tool_call in response_message.tool_calls:
                 function_name = tool_call.function.name
@@ -147,4 +145,11 @@ def askAgent(prompt, max_steps=10):
 
     return "Task Complete."
 
-print(askAgent("make a file app.py and print hello world inside it"))
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("[ERROR]:no prompt provided.")
+        sys.exit(1)
+
+    user_prompt = sys.argv[1]
+    result = askAgent(user_prompt)
+    print(result)
